@@ -5,7 +5,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.core.utils import ChromeType
 from webdriver_manager.firefox import GeckoDriverManager
 from webdriver_manager.microsoft import EdgeChromiumDriverManager, IEDriverManager
-from webdriver_manager.opera import OperaDriverManager
+
 
 from generator_mail.logging import get_logger
 
