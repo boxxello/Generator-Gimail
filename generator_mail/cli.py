@@ -41,6 +41,12 @@ def parse_args() -> Namespace:
         default="chrome",
         help="Browser to use to generate gmail accs",
     )
+    parser.add_argument(
+        "--debug",
+        action="store_true",
+        default=True,
+        help="Enable debug logging",
+    )
     args=parser.parse_args()
     logger.info(args)
     return args
