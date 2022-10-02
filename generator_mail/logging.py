@@ -21,7 +21,7 @@ def load_logging_config() -> None:
     :return: None
     """
 
-    my_logger = logging.getLogger("watcher_udemy")
+    my_logger = logging.getLogger("Gmail_generator")
     my_logger.setLevel(logging.INFO)
 
     # File handler
