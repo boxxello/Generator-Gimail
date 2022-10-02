@@ -1,5 +1,4 @@
 import logging
-import logging.config
 import os
 
 from generator_mail.utils import Utilities
@@ -44,4 +43,4 @@ def get_logger() -> logging.Logger:
 
     :return: An instance of the app logger
     """
-    return logging.getLogger("watcher_udemy")
+    return logging.getLogger("Gmail_generator")
