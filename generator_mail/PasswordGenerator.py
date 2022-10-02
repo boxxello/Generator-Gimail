@@ -1,4 +1,6 @@
-
+import random
+import secrets
+import string
 
 class PasswordGenerator:
     '''
@@ -12,6 +14,18 @@ class PasswordGenerator:
         self.symbols = symbols
         self.uppercase = uppercase
         self.lowercase = lowercase
+    def _generate_n_passwords(self, n):
+        '''
+        Generates n passwords
+        '''
+        return [self._generate_password() for _ in range(n)]
+
+    def _generate_password(self):
+        '''
+        Generates a single password
+        '''
+
+        return "".join(secrets.choice(string.digits+string.ascii_letters+string.punctuation) for _ in range(random.randint(self.min_length, self.max_length)))
 
 
 
