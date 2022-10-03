@@ -7,7 +7,7 @@ from webdriver_manager.firefox import GeckoDriverManager
 from webdriver_manager.microsoft import EdgeChromiumDriverManager, IEDriverManager
 
 
-from generator_mail.logging import get_logger
+from utils.logging import get_logger
 
 logger = get_logger()
 VALID_FIREFOX_STRINGS = {"ff", "firefox"}

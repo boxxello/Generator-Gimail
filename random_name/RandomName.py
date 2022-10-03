@@ -32,14 +32,7 @@ class UniqueName:
         animals = []
         adj = []
 
-        with open("data/names.txt", "r") as f:
-            names.append(f.read().splitlines())
-        with open("data/colors.txt", "r") as f:
-            colors.append(f.read().splitlines())
-        with open("data/animals.txt", "r") as f:
-            animals.append(f.read().splitlines())
-        with open("data/adjectives.txt", "r") as f:
-            adj.append(f.read().splitlines())
+
 
         with open(os.path.join(utils.Utilities.DATA_DIR_PATH, "names.txt"), "r") as f:
             names.extend(f.read().splitlines())

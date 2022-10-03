@@ -2,9 +2,9 @@ import argparse
 import logging
 from argparse import Namespace
 
-from generator_mail.DriverManager import ALL_VALID_BROWSER_STRINGS, DriverManager
-from generator_mail.logging import get_logger
-from generator_mail.settings import Settings
+from cli.DriverManager import ALL_VALID_BROWSER_STRINGS, DriverManager
+from utils.logging import get_logger
+from cli.settings import Settings
 
 logger = get_logger()
 

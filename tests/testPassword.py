@@ -1,8 +1,8 @@
 import unittest
 
 from generator_mail.PasswordGenerator import PasswordGenerator
-from generator_mail.cli import enable_debug_logging
-from generator_mail.logging import get_logger
+from cli.cli import enable_debug_logging
+from utils.logging import get_logger
 
 logger = get_logger()
 
