@@ -1,7 +1,7 @@
 import logging
 import os
 
-from generator_mail.utils import Utilities
+from utils.utils import Utilities
 
 
 class CustomFileHandler(logging.FileHandler):
