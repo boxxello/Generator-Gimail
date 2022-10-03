@@ -1,3 +1,8 @@
+import os
+
+import utils
+
+
 class RandomNameException(Exception):
     """
     Error: Any of the file we're getting the data from is missing or empty
@@ -29,6 +34,7 @@ class UniqueName:
         animals=[]
         adj=[]
 
+<<<<<<< HEAD
         with open("data/names.txt", "r") as f:
             names.append(f.read().splitlines())
         with open("data/colors.txt", "r") as f:
@@ -38,6 +44,16 @@ class UniqueName:
         with open("data/adjectives.txt", "r") as f:
             adj.append( f.read().splitlines())
 
+=======
+        with open(os.path.join(utils.Utilities.DATA_DIR_PATH, "names.txt"), "r") as f:
+            names.extend(f.read().splitlines())
+        with open(os.path.join(utils.Utilities.DATA_DIR_PATH, "colors.txt")) as f:
+            colors.extend( f.read().splitlines())
+        with  open(os.path.join(utils.Utilities.DATA_DIR_PATH, "animals.txt")) as f:
+           animals.extend(f.read().splitlines())
+        with open(os.path.join(utils.Utilities.DATA_DIR_PATH, "adjectives.txt")) as f:
+            adj.extend( f.read().splitlines())
+>>>>>>> 8c9ea21ea40571d69d0ef49da905da0d09b56e36
         return names, colors, animals, adj
 
 
