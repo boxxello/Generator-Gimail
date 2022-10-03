@@ -14,9 +14,12 @@ class UniqueName:
         colors=[]
         animals=[]
         adj=[]
+
         names, colors, animals, adj = UniqueName.read_names_from_data()
+
         if any([len(names)==0, len(colors)==0, len(animals)==0, len(adj)==0]):
             raise RandomNameException()
+            
         return names, colors, animals, adj
 
     @staticmethod
@@ -34,6 +37,7 @@ class UniqueName:
            animals.append(f.read().splitlines())
         with open("data/adjectives.txt", "r") as f:
             adj.append( f.read().splitlines())
+
         return names, colors, animals, adj
 
 

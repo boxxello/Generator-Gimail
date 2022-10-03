@@ -6,9 +6,7 @@ from generator_mail.logging import get_logger
 
 logger= get_logger()
 class TestPassword(unittest.TestCase):
-
-
-
+    
     def test_password(self):
         logger.info("Testing gen passwords")
         passwordGenerator=PasswordGenerator(12,12,True,True,True,True)
