@@ -1,17 +1,23 @@
 import unittest
 
 from generator_mail.PasswordGenerator import PasswordGenerator
+from generator_mail.cli import enable_debug_logging
+from generator_mail.logging import get_logger
 
-
+logger= get_logger()
 class TestPassword(unittest.TestCase):
-    def main(self):
-        self._test_password()
 
-    def _test_password(self):
+
+
+    def test_password(self):
+        logger.info("Testing gen passwords")
         passwordGenerator=PasswordGenerator(12,12,True,True,True,True)
-        self.assertEqual(len(passwordGenerator._generate_password()),12)
-        password=passwordGenerator._generate_password()
-
+        passw=passwordGenerator._generate_password()
+        self.assertIsNotNone(passw)
 
 if __name__ == '__main__':
-    unittest.main()
+
+    enable_debug_logging()
+    runner = unittest.TextTestRunner(verbosity=2)
+    unittest.main(testRunner=runner)
+
