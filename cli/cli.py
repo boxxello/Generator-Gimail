@@ -3,10 +3,13 @@ import logging
 from argparse import Namespace
 
 from cli.DriverManager import ALL_VALID_BROWSER_STRINGS, DriverManager
+from generator_mail.EmailGen import EmailGen
+from generator_mail.PasswordGenerator import PasswordGenerator
 from utils.logging import get_logger
 from cli.settings import Settings
 
 logger = get_logger()
+
 
 def enable_debug_logging() -> None:
     """
@@ -19,8 +22,12 @@ def enable_debug_logging() -> None:
         handler.setLevel(logging.DEBUG)
     logger.info(f"Enabled debug logging")
 
-def run(browser:str):
-    settings=Settings()
+
+def run(browser: str):
+    email_generator = EmailGen()
+    password_generator = PasswordGenerator()
+
+    settings = Settings()
     if browser:
         dm = DriverManager(browser=browser)
 
@@ -32,7 +39,7 @@ def parse_args() -> Namespace:
     :return: Args to be used in the script
     """
 
-    parser=argparse.ArgumentParser(description='Gmail account generator')
+    parser = argparse.ArgumentParser(description='Gmail account generator')
     parser.add_argument(
         "--browser",
         required=False,
@@ -43,12 +50,44 @@ def parse_args() -> Namespace:
     )
     parser.add_argument(
         "--debug",
-        action="store_true",
+        type=bool,
         default=True,
         help="Enable debug logging",
     )
-    args=parser.parse_args()
+    parser.add_argument(
+        "--min_length",
+        type=int,
+        help="Set password min length",
+    )
+    parser.add_argument(
+        "--max_length",
+        type=int,
+        help="Set password max length",
+    )
+    parser.add_argument(
+        "--numbers",
+        type=bool,
+        help="Include numbers into the password",
+    )
+    parser.add_argument(
+        "--symbols",
+        type=bool,
+        help="Include symbols into the password",
+    )
+    parser.add_argument(
+        "--uppercase",
+        type=bool,
+        help="Include uppercase letters into the password",
+    )
+    parser.add_argument(
+        "--lowercase",
+        type=bool,
+        help="Include lowercase letters into the password",
+    )
+
+    args = parser.parse_args()
     logger.info(args)
+
     return args
 
 

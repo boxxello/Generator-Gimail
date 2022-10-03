@@ -5,8 +5,9 @@ import random_name
 
 
 class Utilities:
-    BASE_PATH=Path(os.path.abspath(random_name.__file__)).parent
-    DATA_DIR_PATH=os.path.join(BASE_PATH, "data")
+    BASE_PATH = Path(os.path.abspath(random_name.__file__)).parent
+    DATA_DIR_PATH = os.path.join(BASE_PATH, "data")
+
     @staticmethod
     def get_app_dir() -> str:
         """
