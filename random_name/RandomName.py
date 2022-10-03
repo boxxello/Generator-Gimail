@@ -32,8 +32,6 @@ class UniqueName:
         animals = []
         adj = []
 
-
-
         with open(os.path.join(utils.Utilities.DATA_DIR_PATH, "names.txt"), "r") as f:
             names.extend(f.read().splitlines())
         with open(os.path.join(utils.Utilities.DATA_DIR_PATH, "colors.txt")) as f:
