@@ -9,52 +9,45 @@ class RandomNameException(Exception):
     """
 
 
-
 class UniqueName:
-
 
     @staticmethod
     def call_read_names_and_check():
-        names=[]
-        colors=[]
-        animals=[]
-        adj=[]
+        names = []
+        colors = []
+        animals = []
+        adj = []
 
         names, colors, animals, adj = UniqueName.read_names_from_data()
 
-        if any([len(names)==0, len(colors)==0, len(animals)==0, len(adj)==0]):
+        if any([len(names) == 0, len(colors) == 0, len(animals) == 0, len(adj) == 0]):
             raise RandomNameException()
-            
+
         return names, colors, animals, adj
 
     @staticmethod
     def read_names_from_data():
-        names=[]
-        colors=[]
-        animals=[]
-        adj=[]
+        names = []
+        colors = []
+        animals = []
+        adj = []
 
-<<<<<<< HEAD
         with open("data/names.txt", "r") as f:
             names.append(f.read().splitlines())
         with open("data/colors.txt", "r") as f:
-            colors.append( f.read().splitlines())
+            colors.append(f.read().splitlines())
         with open("data/animals.txt", "r") as f:
-           animals.append(f.read().splitlines())
+            animals.append(f.read().splitlines())
         with open("data/adjectives.txt", "r") as f:
-            adj.append( f.read().splitlines())
+            adj.append(f.read().splitlines())
 
-=======
         with open(os.path.join(utils.Utilities.DATA_DIR_PATH, "names.txt"), "r") as f:
             names.extend(f.read().splitlines())
         with open(os.path.join(utils.Utilities.DATA_DIR_PATH, "colors.txt")) as f:
-            colors.extend( f.read().splitlines())
-        with  open(os.path.join(utils.Utilities.DATA_DIR_PATH, "animals.txt")) as f:
-           animals.extend(f.read().splitlines())
+            colors.extend(f.read().splitlines())
+        with open(os.path.join(utils.Utilities.DATA_DIR_PATH, "animals.txt")) as f:
+            animals.extend(f.read().splitlines())
         with open(os.path.join(utils.Utilities.DATA_DIR_PATH, "adjectives.txt")) as f:
-            adj.extend( f.read().splitlines())
->>>>>>> 8c9ea21ea40571d69d0ef49da905da0d09b56e36
+            adj.extend(f.read().splitlines())
+
         return names, colors, animals, adj
-
-
-
