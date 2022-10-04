@@ -3,7 +3,7 @@ import json
 
 class CommonFN:
     @staticmethod
-    def save_email_pass_as_json(emails: list, passws:list, file: str) -> None:
+    def save_email_pass_as_json(emails: list, passws:list, file_path: str) -> None:
         """
         Save email and password to file
         :param emails:
@@ -11,10 +11,10 @@ class CommonFN:
         :param file:
         :return:
         """
-        with open(file, "w") as f:
+        with open(file_path, "w") as f:
             json.dump({"emails": emails, "passwords": passws}, f)
     @staticmethod
-    def load_email_pass(self, file: str) -> dict:
+    def load_email_pass( file: str) -> dict:
         """
         Load email and password from file
         :param file:
