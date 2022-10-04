@@ -25,10 +25,12 @@ def enable_debug_logging() -> None:
 
 def run(browser: str, min_length: int, max_length: int,
         numbers: bool,  symbols: bool, uppercase: bool,
-        lowercase: bool, delete_settings: bool, settings_file: str):
+        lowercase: bool,number_of_accounts: int, delete_settings: bool, settings_file: str):
+
     email_generator = EmailGen()
     password_generator = PasswordGenerator()
-
+    email_lists= email_generator._generate_n_emails(number_of_accounts)
+    password_lists = password_generator._generate_n_passwords(number_of_accounts)
     settings = Settings(browser, min_length, max_length,
                         numbers, symbols, uppercase,
                         lowercase, delete_settings, settings_file)
@@ -98,6 +100,12 @@ def parse_args() -> Namespace:
         type=bool,
         help="Path to the settings file",
     )
+    parser.add_argument(
+        "--number_of_accounts",
+        type=int,
+        help="Number of accounts to generate",
+    )
+
 
     args = parser.parse_args()
     logger.info(args)
@@ -117,6 +125,7 @@ def main():
             args.symbols,
             args.uppercase,
             args.lowercase,
+            args.number_of_accounts,
             args.delete_settings,
             args.settings_file)
 
