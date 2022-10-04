@@ -9,7 +9,7 @@ logger = get_logger()
 
 
 class Settings:
-    def __int__(self, browser, min_length, max_length, numbers, symbols, uppercase, lowercase, settings_file_path: str = "settings.yaml"):
+    def __init__(self, browser, min_length, max_length, numbers, symbols, uppercase, lowercase, settings_file_path: str = "settings.yaml"):
         # set_browser returns a Tuple[str, bool] where str = browser and parameter and bool = True if browser
         # should be saved as default.
         # The same logic is applied to all "_set_x" methods
