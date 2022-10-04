@@ -58,7 +58,7 @@ class Settings:
         """
         Sets the browser parameter
         """
-        if len(browser) == 0 or browser not in ALL_VALID_BROWSER_STRINGS or browser:
+        if not browser or browser not in ALL_VALID_BROWSER_STRINGS:
             logger.warning(f"Invalid browser: {browser}")
             logger.info(f"Valid browsers: {ALL_VALID_BROWSER_STRINGS}")
             return self._set_browser(input("Please enter a valid browser: "))

@@ -65,7 +65,6 @@ def parse_args() -> Namespace:
         required=False,
         type=str,
         choices=ALL_VALID_BROWSER_STRINGS,
-        default="chrome",
         help="Browser to use to generate gmail accs",
     )
     parser.add_argument(
