@@ -1,6 +1,8 @@
 import random
 
 import random_name
+import utils
+from random_name import UniqueName
 
 
 class EmailGen:
@@ -13,6 +15,7 @@ class EmailGen:
             raise ValueError("Domain cannot be longer than 253 characters")
         else:
             self.domain = domain
+        self.unique_name_gen=UniqueName(utils.Utilities.DATA_DIR_PATH)
 
     def _generate_n_emails(self, n) -> list:
         '''
@@ -26,7 +29,7 @@ class EmailGen:
         '''
 
         while True:
-            chosen_list = random.choice(random_name.LISTS)
+            chosen_list = random.choice(self.unique_name_gen.LISTS)
 
             chosen_list_number = [random.randint(0, 9) for _ in range(random.randint(1, 3))]
 
