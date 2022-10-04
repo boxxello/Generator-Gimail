@@ -23,11 +23,15 @@ def enable_debug_logging() -> None:
     logger.info(f"Enabled debug logging")
 
 
-def run(browser: str):
+def run(browser: str, min_length: int, max_length: int,
+        numbers: bool,  symbols: bool, uppercase: bool,
+        lowercase: bool, delete_settings: bool, settings_file: str):
     email_generator = EmailGen()
     password_generator = PasswordGenerator()
 
-    settings = Settings()
+    settings = Settings(browser, min_length, max_length,
+                        numbers, symbols, uppercase,
+                        lowercase, delete_settings, settings_file)
     if browser:
         dm = DriverManager(browser=browser)
 
@@ -84,6 +88,16 @@ def parse_args() -> Namespace:
         type=bool,
         help="Include lowercase letters into the password",
     )
+    parser.add_argument(
+        "--delete_settings",
+        type=bool,
+        help="Delete any existing settings file",
+    )
+    parser.add_argument(
+        "--settings_file",
+        type=bool,
+        help="Path to the settings file",
+    )
 
     args = parser.parse_args()
     logger.info(args)
@@ -96,4 +110,13 @@ def main():
     if args:
         if args.debug:
             enable_debug_logging()
-        run(args.browser)
+        run(args.browser,
+            args.min_length,
+            args.max_length,
+            args.numbers,
+            args.symbols,
+            args.uppercase,
+            args.lowercase,
+            args.delete_settings,
+            args.settings_file)
+
