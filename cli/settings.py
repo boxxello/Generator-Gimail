@@ -17,7 +17,7 @@ class Settings:
         # The same logic is applied to all "_set_x" methods
         self.browser, self.save_browser = self._set_browser(browser)
         self.min_length, self.save_min_length = self._set_min_length(min_length)
-        self.max_length, self.save_max_length = self._set_min_length(max_length)
+        self.max_length, self.save_max_length = self._get_max_length(max_length)
         self.numbers, self.save_numbers = self._set_numbers(numbers)
         self.symbols, self.save_symbols = self._set_symbols(symbols)
         self.uppercase, self.save_uppercase = self._set_uppercase(uppercase)
@@ -70,6 +70,7 @@ class Settings:
     def _set_min_length(self, min_length) -> Tuple[int, bool]:
         """
         Sets the min-length parameter
+        :param min_length:
         """
         if min_length:
             try:
@@ -79,6 +80,7 @@ class Settings:
                 return self._set_min_length(input("Please enter a valid min_length: "))
 
             save = input(f"Save {min_length} as default min_length? (y/n): ")
+            print(save.lower()[0])
             return min_length, save.lower()[0] == "y"
 
         return self._set_min_length(input("Please enter a valid min_length: "))
@@ -92,12 +94,12 @@ class Settings:
                 max_length = int(max_length)
             except ValueError:
                 logger.warning(f"Invalid min_length: {max_length}")
-                return self._set_min_length(input("Please enter a valid max_length: "))
+                return self._get_max_length(input("Please enter a valid max_length: "))
 
             save = input(f"Save {max_length} as default max_length? (y/n): ")
             return max_length, save.lower()[0] == "y"
 
-        return self._set_min_length(input("Please enter a valid max_length: "))
+        return self._get_max_length(input("Please enter a valid max_length: "))
 
     def _set_numbers(self, numbers) -> Tuple[bool, bool]:
         """
