@@ -41,7 +41,8 @@ def run(browser: str, min_length: int, max_length: int,
                                max_length=settings.max_length, numbers=settings.numbers,
                                symbols=settings.symbols,uppercase= settings.uppercase,
                                lowercase=settings.lowercase)
-    email_lists= email_generator._generate_n_emails(number_of_accounts)
+    email_lists= email_generator.\
+        _generate_n_emails(number_of_accounts)
     password_lists = password_generator._generate_n_passwords(number_of_accounts)
     file_name= f'email_pass{datetime.now().strftime("%H:%M:%S")}.json'
     os.makedirs(os.path.join(Utilities.DATA_DIR_PATH,file_name),exist_ok=True)
