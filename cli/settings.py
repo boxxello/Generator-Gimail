@@ -24,49 +24,51 @@ class Settings:
         if delete_settings:
             self.delete_settings()
         settings = self._load_user_settings()
+        settings=settings.get('generator-gmail')
         # TODO::Refactorize these next lines, they're ugly af.
         if settings is not None:
             if settings.get('browser') is None:
+                print("browser is none")
                 self.browser, self.save_browser = self._set_browser(browser)
             else:
                 self.browser = settings['browser']
-                self.save_browser = False
+                self.save_browser = True
             if settings.get('min_length') is None:
                 self.min_length, self.save_min_length = self._set_min_length(min_length)
             else:
                 self.min_length = settings['min_length']
-                self.save_min_length = False
+                self.save_min_length = True
             if settings.get('max_length') is None:
                 self.max_length, self.save_max_length = self._get_max_length(max_length)
             else:
                 self.max_length = settings['max_length']
-                self.save_max_length = False
+                self.save_max_length = True
             if settings.get('numbers') is None:
                 self.numbers, self.save_numbers = self._set_numbers(numbers)
             else:
                 self.numbers = settings['numbers']
-                self.save_numbers = False
+                self.save_numbers = True
             if settings.get('symbols') is None:
                 self.symbols, self.save_symbols = self._set_symbols(symbols)
             else:
                 self.symbols = settings['symbols']
-                self.save_symbols = False
+                self.save_symbols = True
             if settings.get('uppercase') is None:
                 self.uppercase, self.save_uppercase = self._set_uppercase(uppercase)
             else:
                 self.uppercase = settings['uppercase']
-                self.save_uppercase = False
+                self.save_uppercase = True
 
             if settings.get('lowercase') is None:
                 self.lowercase, self.save_lowercase = self._set_lowercase(lowercase)
             else:
                 self.lowercase = settings['lowercase']
-                self.save_lowercase = False
+                self.save_lowercase = True
             if settings.get('number_of_accs') is None:
                 self.number_of_accs, self.save_number_of_accs = self._set_number_of_accs(number_of_accs)
             else:
                 self.number_of_accs = settings['number_of_accs']
-                self.save_number_of_accs = False
+                self.save_number_of_accs = True
         else:
             self.browser, self.save_browser = self._set_browser(browser)
             self.min_length, self.save_min_length = self._set_min_length(min_length)
@@ -246,6 +248,7 @@ class Settings:
                 "symbols": self.symbols if self.save_symbols else None,
                 "min_length": self.min_length if self.save_min_length else None,
                 "max_length": self.max_length if self.save_max_length else None,
+                "number_of_accs": self.number_of_accs if self.save_number_of_accs else None,
             }
         }
         with open(self._settings_file_path, "w+") as f:
