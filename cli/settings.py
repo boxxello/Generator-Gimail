@@ -20,6 +20,7 @@ class Settings:
             settings_file_path = 'settings.yaml'
 
         self._settings_file_path = os.path.join(Utilities.get_app_dir(), settings_file_path)
+        print(self._settings_file_path)
         if delete_settings:
             self.delete_settings()
         settings = self._load_user_settings()
@@ -97,6 +98,7 @@ class Settings:
         """
         Sets the browser parameter
         """
+
         if not browser or browser not in ALL_VALID_BROWSER_STRINGS:
             logger.warning(f"Invalid browser: {browser}")
             logger.info(f"Valid browsers: {ALL_VALID_BROWSER_STRINGS}")
@@ -199,14 +201,14 @@ class Settings:
             try:
                 number_of_accs = int(number_of_accs)
             except ValueError:
-                logger.warning(f"Invalid min_length: {number_of_accs}")
+                logger.warning(f"Invalid number of accs: {number_of_accs}")
                 return self._set_number_of_accs(input("Please enter a valid number of accs to be generated: "))
 
-            save = input(f"Save {number_of_accs} as default min_length? (y/n): ")
+            save = input(f"Save {number_of_accs} as default number of accs? (y/n): ")
             print(save.lower()[0])
             return number_of_accs, save.lower()[0] == "y"
 
-        return self._set_number_of_accs(input("Please enter a valid min_length: "))
+        return self._set_number_of_accs(input("Please enter a valid number of accs to be generated:"))
 
     def _set_lowercase(self, lowercase) -> Tuple[bool, bool]:
         """
@@ -237,9 +239,10 @@ class Settings:
         """
         yaml_structure = {
             "generator-gmail": {
+                "browser": str(self.browser) if self.browser else None,
                 "numbers": self.numbers if self.save_numbers else None,
-                "lowercase": str(self.lowercase) if self.save_lowercase else None,
-                "uppercase": str(self.uppercase) if self.save_uppercase else None,
+                "lowercase": self.lowercase if self.save_lowercase else None,
+                "uppercase": self.uppercase if self.save_uppercase else None,
                 "symbols": self.symbols if self.save_symbols else None,
                 "min_length": self.min_length if self.save_min_length else None,
                 "max_length": self.max_length if self.save_max_length else None,
@@ -262,11 +265,14 @@ class Settings:
             logger.info("Loading existing settings")
             with open(self._settings_file_path) as f:
                 settings = yaml.load(f)
-            udemy_settings = settings["generator-gmail"]
-            self.numbers = udemy_settings["lowercase"]
-            self.uppercase = udemy_settings["uppercase"]
-            self.symbols = udemy_settings["symbols"]
-            self.min_length = udemy_settings.get("min_length")
-            self.max_length = udemy_settings.get("max_length")
+
+            generator_settings = settings.get("generator-gmail")
+            print(generator_settings)
+            self.browser= generator_settings.get("browser")
+            self.numbers = generator_settings.get("lowercase")
+            self.uppercase = generator_settings.get("uppercase")
+            self.symbols = generator_settings.get("symbols")
+            self.min_length = generator_settings.get("min_length")
+            self.max_length = generator_settings.get("max_length")
 
         return settings
