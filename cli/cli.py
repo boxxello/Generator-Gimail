@@ -35,16 +35,16 @@ def run(browser: str, min_length: int, max_length: int,
 
     settings = Settings(browser, min_length, max_length,
                         numbers, symbols, uppercase,
-                        lowercase, delete_settings, settings_file)
+                        lowercase, number_of_accounts,delete_settings, settings_file)
     email_generator = EmailGen()
     password_generator = PasswordGenerator( min_length=settings.min_length,
                                max_length=settings.max_length, numbers=settings.numbers,
                                symbols=settings.symbols,uppercase= settings.uppercase,
                                lowercase=settings.lowercase)
     email_lists= email_generator.\
-        _generate_n_emails(number_of_accounts)
-    password_lists = password_generator._generate_n_passwords(number_of_accounts)
-    file_name= f'email_pass{datetime.now().strftime("%H:%M:%S")}.json'
+        _generate_n_emails(settings.number_of_accs)
+    password_lists = password_generator._generate_n_passwords(settings.number_of_accs)
+    file_name= f'email_pass{datetime.now().strftime("%H_%M_%S")}.json'
     os.makedirs(os.path.join(Utilities.DATA_DIR_PATH,file_name),exist_ok=True)
     CommonFN.save_email_pass_as_json(email_lists, password_lists, file_name)
     print(email_lists)
@@ -119,6 +119,7 @@ def parse_args() -> Namespace:
         type=int,
         help="Number of accounts to generate",
     )
+
 
 
     args = parser.parse_args()

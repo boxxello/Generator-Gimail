@@ -11,18 +11,19 @@ logger = get_logger()
 
 
 class Settings:
-    def __init__(self, browser, min_length, max_length, numbers, symbols, uppercase, lowercase, delete_settings, settings_file_path=None):
+    def __init__(self, browser, min_length, max_length, numbers, symbols, uppercase, lowercase, number_of_accs,
+                 delete_settings, settings_file_path=None):
         # set_browser returns a Tuple[str, bool] where str = browser and parameter and bool = True if browser
         # should be saved as default.
         # The same logic is applied to all "_set_x" methods
         if settings_file_path is None:
-            settings_file_path='settings.yaml'
+            settings_file_path = 'settings.yaml'
 
         self._settings_file_path = os.path.join(Utilities.get_app_dir(), settings_file_path)
         if delete_settings:
             self.delete_settings()
         settings = self._load_user_settings()
-        #TODO::Refactorize these next lines, they're ugly af.
+        # TODO::Refactorize these next lines, they're ugly af.
         if settings is not None:
             if settings.get('browser') is None:
                 self.browser, self.save_browser = self._set_browser(browser)
@@ -60,6 +61,11 @@ class Settings:
             else:
                 self.lowercase = settings['lowercase']
                 self.save_lowercase = False
+            if settings.get('number_of_accs') is None:
+                self.number_of_accs, self.save_number_of_accs = self._set_number_of_accs(number_of_accs)
+            else:
+                self.number_of_accs = settings['number_of_accs']
+                self.save_number_of_accs = False
         else:
             self.browser, self.save_browser = self._set_browser(browser)
             self.min_length, self.save_min_length = self._set_min_length(min_length)
@@ -68,15 +74,8 @@ class Settings:
             self.symbols, self.save_symbols = self._set_symbols(symbols)
             self.uppercase, self.save_uppercase = self._set_uppercase(uppercase)
             self.lowercase, self.save_lowercase = self._set_lowercase(lowercase)
-
+            self.number_of_accs, self.save_number_of_accs = self._set_number_of_accs(number_of_accs)
         self._save_settings()
-
-
-
-
-
-
-
 
     def delete_settings(self) -> None:
         """
@@ -93,6 +92,7 @@ class Settings:
                 logger.info(f"Settings file deleted: {self._settings_file_path}")
         else:
             logger.info("No settings to delete")
+
     def _set_browser(self, browser) -> Tuple[str, bool]:
         """
         Sets the browser parameter
@@ -105,7 +105,6 @@ class Settings:
         save = input(f"Save {browser} as default browser? (y/n): ")
 
         return browser, save.lower()[0] == "y"
-
 
     def _set_min_length(self, min_length) -> Tuple[int, bool]:
         """
@@ -129,7 +128,7 @@ class Settings:
         """
         Sets the max-length parameter
         """
-        if max_length :
+        if max_length:
             try:
                 max_length = int(max_length)
             except ValueError:
@@ -191,6 +190,24 @@ class Settings:
 
         return self._set_uppercase(input("Please enter a valid value (True/False): "))
 
+    def _set_number_of_accs(self, number_of_accs):
+        """
+        sets the number of accounts to be created
+        :param number_of_accs:
+        """
+        if number_of_accs:
+            try:
+                number_of_accs = int(number_of_accs)
+            except ValueError:
+                logger.warning(f"Invalid min_length: {number_of_accs}")
+                return self._set_number_of_accs(input("Please enter a valid number of accs to be generated: "))
+
+            save = input(f"Save {number_of_accs} as default min_length? (y/n): ")
+            print(save.lower()[0])
+            return number_of_accs, save.lower()[0] == "y"
+
+        return self._set_number_of_accs(input("Please enter a valid min_length: "))
+
     def _set_lowercase(self, lowercase) -> Tuple[bool, bool]:
         """
         Sets the lowercase parameter
@@ -212,7 +229,6 @@ class Settings:
 
         return self._set_lowercase(input("Please enter a valid value (True/False): "))
 
-
     def _save_settings(self) -> None:
         """
         Saves settings to settings file
@@ -232,7 +248,6 @@ class Settings:
         with open(self._settings_file_path, "w+") as f:
             dump(yaml_structure, stream=f)
         logger.info(f"Saved your settings in {self._settings_file_path}")
-
 
     def _load_user_settings(self):
         """
@@ -254,7 +269,4 @@ class Settings:
             self.min_length = udemy_settings.get("min_length")
             self.max_length = udemy_settings.get("max_length")
 
-
         return settings
-
-
