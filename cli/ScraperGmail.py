@@ -7,20 +7,21 @@ import requests
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support import expected_conditions as ec
 from cli.settings import Settings
 from utils.logging import get_logger
 
-logger=get_logger()
+logger = get_logger()
+
 
 class ScraperGmail:
-    def __init__(self,  driver: WebDriver, settings: Settings, nationality: str):
+    def __init__(self, driver: WebDriver, settings: Settings, nationality: str):
         self.site = f"www.google.com/intl/{nationality}/gmail/about/"
         self.DOMAIN_BUSINESS_FULL = f"https://{self.site}"
         self.scraper_name = "gmail.gen"
-        self.cookie_file=None
+        self.cookie_file = None
         self.driver = driver
-        self.settings=settings
+        self.settings = settings
         self.HEADERS = {
             "origin": f"",
             "accept": "application/json, text/plain, */*",
@@ -35,19 +36,15 @@ class ScraperGmail:
         self._init_driver()
         self._login()
 
-
-
     def _init_driver(self):
-        self.session.headers=self.HEADERS
+        self.session.headers = self.HEADERS
         cookie_details = self._load_cookies()
         if cookie_details is None:
             pass
 
-
     def _cache_cookies(self, cookies: List) -> None:
         """
         Caches cookies for future logins
-
         :param cookies:
         :return:
         """
@@ -73,7 +70,6 @@ class ScraperGmail:
                 logger.info("No cookie available")
         else:
             logger.info("No cookie file specified")
-
 
     def _delete_cookies(self) -> None:
         """
@@ -108,7 +104,7 @@ class ScraperGmail:
     def _find_login_btn(self):
         self.driver.get(self.DOMAIN_BUSINESS_FULL)
 
-        login_btn='//a[@data-action="sign in"]'
+        login_btn = '//a[@data-action="sign in"]'
         WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, login_btn))
+            ec.presence_of_element_located((By.XPATH, login_btn))
         ).click()
