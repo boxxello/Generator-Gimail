@@ -12,7 +12,9 @@ class CommonFN:
         :return:
         """
         with open(file_path, "w") as f:
-            json.dump({"emails": emails, "passwords": passws}, f)
+            json.dump({"emails": emails, "passwords": passws}, f,indent=4)
+
+
     @staticmethod
     def load_email_pass( file: str) -> dict:
         """

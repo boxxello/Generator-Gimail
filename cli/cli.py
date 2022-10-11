@@ -45,8 +45,9 @@ def run(browser: str, min_length: int, max_length: int,
         _generate_n_emails(settings.number_of_accs)
     password_lists = password_generator._generate_n_passwords(settings.number_of_accs)
     file_name= f'email_pass{datetime.now().strftime("%H_%M_%S")}.json'
-    os.makedirs(os.path.join(Utilities.DATA_DIR_PATH,file_name),exist_ok=True)
-    CommonFN.save_email_pass_as_json(email_lists, password_lists, file_name)
+    path=os.path.join(Utilities.DATA_DIR_PATH,'generated_accs')
+    os.makedirs(path,exist_ok=True)
+    CommonFN.save_email_pass_as_json(email_lists, password_lists, os.path.join(path,file_name))
     print(email_lists)
     print(password_lists)
     if browser:
