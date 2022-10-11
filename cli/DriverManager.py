@@ -6,7 +6,6 @@ from webdriver_manager.core.utils import ChromeType
 from webdriver_manager.firefox import GeckoDriverManager
 from webdriver_manager.microsoft import EdgeChromiumDriverManager, IEDriverManager
 
-
 from utils.logging import get_logger
 
 logger = get_logger()
@@ -18,9 +17,10 @@ VALID_EDGE_STRINGS = {"edge"}
 
 ALL_VALID_BROWSER_STRINGS = VALID_CHROME_STRINGS.union(VALID_CHROMIUM_STRINGS)
 
+
 class DriverManager:
     def __init__(self, browser: str):
-        self.driver = None
+        self.driver: webdriver = None
         self.options = None
         self.browser = browser
         self._init_driver()
@@ -33,16 +33,17 @@ class DriverManager:
         """
 
         if self.browser.lower() in VALID_CHROME_STRINGS:
-            #enabling performance and request profiling
+            # enabling performance and request profiling
             caps = DesiredCapabilities.CHROME
             # as per latest docs
             caps['goog:loggingPrefs'] = {'performance': 'ALL'}
-            #disabling the annoying chrome notification
+            # disabling the annoying chrome notification
             self.options = webdriver.ChromeOptions()
             self.options.add_argument("--mute-audio")
             self.options.add_experimental_option("useAutomationExtension", False)
             self.options.add_experimental_option("excludeSwitches", ["enable-automation"])
-            self.driver = webdriver.Chrome( ChromeDriverManager().install(), options=self.options, desired_capabilities=caps)
+            self.driver = webdriver.Chrome(ChromeDriverManager().install(), options=self.options,
+                                           desired_capabilities=caps)
 
 
 
@@ -66,8 +67,8 @@ class DriverManager:
             "Page.addScriptToEvaluateOnNewDocument",
             {
                 "source": "const newProto = navigator.__proto__;"
-                "delete newProto.webdriver;"
-                "navigator.__proto__ = newProto;"
+                          "delete newProto.webdriver;"
+                          "navigator.__proto__ = newProto;"
             },
         )
         # Maximize the browser

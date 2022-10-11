@@ -4,14 +4,17 @@ import os
 from typing import Dict, List
 
 import requests
-
+from selenium.webdriver.common.by import By
+from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from cli.settings import Settings
 from utils.logging import get_logger
 
 logger=get_logger()
 
 class ScraperGmail:
-    def __init__(self,  driver, settings: Settings, nationality: str):
+    def __init__(self,  driver: WebDriver, settings: Settings, nationality: str):
         self.site = f"www.google.com/intl/{nationality}/gmail/about/"
         self.DOMAIN_BUSINESS_FULL = f"https://{self.site}"
         self.scraper_name = "gmail.gen"
@@ -29,12 +32,12 @@ class ScraperGmail:
             "authority": f""
         }
         self.session = requests.Session()
-        self.init_driver()
+        self._init_driver()
+        self._login()
 
 
 
-
-    def init_driver(self):
+    def _init_driver(self):
         self.session.headers=self.HEADERS
         cookie_details = self._load_cookies()
         if cookie_details is None:
@@ -72,12 +75,6 @@ class ScraperGmail:
             logger.info("No cookie file specified")
 
 
-
-    def find_login_btn(self):
-        login_btn='//a[@data-action="sign in"]'
-
-
-
     def _delete_cookies(self) -> None:
         """
         Remove existing cookie file
@@ -103,3 +100,15 @@ class ScraperGmail:
             return response
 
         return wrapper
+
+    def _login(self):
+        self.driver.get(self.DOMAIN_BUSINESS_FULL)
+        self._find_login_btn()
+
+    def _find_login_btn(self):
+        self.driver.get(self.DOMAIN_BUSINESS_FULL)
+
+        login_btn='//a[@data-action="sign in"]'
+        WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, login_btn))
+        ).click()

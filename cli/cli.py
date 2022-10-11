@@ -51,8 +51,9 @@ def run(browser: str, min_length: int, max_length: int,
     CommonFN.save_email_pass_as_json(email_lists, password_lists, os.path.join(path,file_name))
     print(email_lists)
     print(password_lists)
-    driver=DriverManager(browser=settings.browser)
-    scraper=ScraperGmail(driver=driver,nationality='it',settings=settings)
+    dm_obj=DriverManager(browser=settings.browser)
+
+    scraper=ScraperGmail(driver=dm_obj.driver,nationality='it',settings=settings)
 
 
 def parse_args() -> Namespace:
