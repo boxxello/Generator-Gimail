@@ -18,8 +18,6 @@ class ScraperGmail:
         self.cookie_file=None
         self.driver = driver
         self.settings=settings
-        self.session = requests.Session()
-        self.init_driver()
         self.HEADERS = {
             "origin": f"",
             "accept": "application/json, text/plain, */*",
@@ -30,6 +28,9 @@ class ScraperGmail:
             "referer": f"",
             "authority": f""
         }
+        self.session = requests.Session()
+        self.init_driver()
+
 
 
 
@@ -59,14 +60,17 @@ class ScraperGmail:
         Dict
         """
         cookies = None
-
-        if os.path.isfile(self.cookie_file):
-            logger.info("Loading cookie from file")
-            with open(self.cookie_file) as f:
-                cookies = json.loads(f.read())
+        if self.cookie_file:
+            if os.path.isfile(self.cookie_file):
+                logger.info("Loading cookie from file")
+                with open(self.cookie_file) as f:
+                    cookies = json.loads(f.read())
+                    return cookies
+            else:
+                logger.info("No cookie available")
         else:
-            logger.info("No cookie available")
-        return cookies
+            logger.info("No cookie file specified")
+
 
 
     def find_login_btn(self):

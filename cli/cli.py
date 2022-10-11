@@ -5,6 +5,7 @@ from argparse import Namespace
 from datetime import datetime
 
 from cli.DriverManager import ALL_VALID_BROWSER_STRINGS, DriverManager
+from cli.ScraperGmail import ScraperGmail
 from generator_mail.CommonFN import CommonFN
 from generator_mail.EmailGen import EmailGen
 from generator_mail.PasswordGenerator import PasswordGenerator
@@ -50,8 +51,8 @@ def run(browser: str, min_length: int, max_length: int,
     CommonFN.save_email_pass_as_json(email_lists, password_lists, os.path.join(path,file_name))
     print(email_lists)
     print(password_lists)
-    if browser:
-        dm = DriverManager(browser=browser)
+    driver=DriverManager(browser=settings.browser)
+    scraper=ScraperGmail(driver=driver,nationality='it',settings=settings)
 
 
 def parse_args() -> Namespace:
