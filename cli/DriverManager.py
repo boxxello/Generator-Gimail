@@ -6,6 +6,7 @@ from webdriver_manager.core.utils import ChromeType
 from webdriver_manager.firefox import GeckoDriverManager
 from webdriver_manager.microsoft import EdgeChromiumDriverManager, IEDriverManager
 
+from cli.add_proxy import get_proxy_extension
 from utils.logging import get_logger
 
 logger = get_logger()
@@ -42,6 +43,21 @@ class DriverManager:
             self.options.add_argument("--mute-audio")
             self.options.add_experimental_option("useAutomationExtension", False)
             self.options.add_experimental_option("excludeSwitches", ["enable-automation"])
+            # self.options.add_argument('--no-first-run --no-service-autorun --password-store=basic')
+            if proxy:
+                if '@' in proxy:
+                    parts = proxy.split('@')
+
+                    user = parts[0].split(':')[0]
+                    pwd = parts[0].split(':')[1]
+
+                    host = parts[1].split(':')[0]
+                    port = parts[1].split(':')[1]
+
+                    extension = get_proxy_extension(PROXY_HOST=host, PROXY_PORT=port, PROXY_USER=user, PROXY_PASS=pwd)
+                    self.options.add_extension(extension)
+                else:
+                    self.options.add_argument(f'--proxy-server=http://{proxy}')
             self.driver = webdriver.Chrome(ChromeDriverManager().install(), options=self.options,
                                            desired_capabilities=caps)
 
