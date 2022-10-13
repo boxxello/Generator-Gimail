@@ -3,6 +3,9 @@ import logging
 import os
 from argparse import Namespace
 from datetime import datetime
+from time import sleep
+
+from fake_useragent import UserAgent, FakeUserAgentError
 
 from cli.DriverManager import ALL_VALID_BROWSER_STRINGS, DriverManager
 from cli.ScraperGmail import ScraperGmail
@@ -51,9 +54,19 @@ def run(browser: str, min_length: int, max_length: int,
     CommonFN.save_email_pass_as_json(email_lists, password_lists, os.path.join(path,file_name))
     print(email_lists)
     print(password_lists)
-    dm_obj=DriverManager(browser=settings.browser)
 
-    scraper=ScraperGmail(driver=dm_obj.driver,nationality='it',settings=settings)
+    for i in range(0,3):
+        try:
+            ua=UserAgent()
+            user_agent_to_use=ua.random
+            dm_obj = DriverManager(browser=settings.browser, proxy=,user_agent=user_agent_to_use)
+            scraper = ScraperGmail(driver=dm_obj.driver, nationality='it', settings=settings)
+            break
+        except FakeUserAgentError:
+            sleep(1)
+            ua=None
+
+
 
 
 def parse_args() -> Namespace:
