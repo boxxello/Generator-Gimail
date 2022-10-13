@@ -9,6 +9,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from cli.settings import Settings
+from mac_generator.Generator import GeneratorMac
 from utils.logging import get_logger
 
 logger = get_logger()
@@ -102,6 +103,7 @@ class ScraperGmail:
         self._find_login_btn()
 
     def _find_login_btn(self):
+
         self.driver.get(self.DOMAIN_BUSINESS_FULL)
 
         login_btn = '//a[@data-action="sign in"]'
