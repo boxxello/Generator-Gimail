@@ -20,11 +20,14 @@ ALL_VALID_BROWSER_STRINGS = VALID_CHROME_STRINGS.union(VALID_CHROMIUM_STRINGS)
 
 
 class DriverManager:
-    def __init__(self, browser: str):
+    def __init__(self, browser: str, proxy: str = None, user_agent: str = None):
         self.driver: webdriver = None
         self.options = None
         self.browser = browser
+        self.proxy=proxy
+        self.user_agent=user_agent
         self._init_driver()
+
 
     def _init_driver(self):
         """
@@ -44,9 +47,9 @@ class DriverManager:
             self.options.add_experimental_option("useAutomationExtension", False)
             self.options.add_experimental_option("excludeSwitches", ["enable-automation"])
             # self.options.add_argument('--no-first-run --no-service-autorun --password-store=basic')
-            if proxy:
-                if '@' in proxy:
-                    parts = proxy.split('@')
+            if self.proxy:
+                if '@' in self.proxy:
+                    parts = self.proxy.split('@')
 
                     user = parts[0].split(':')[0]
                     pwd = parts[0].split(':')[1]
@@ -57,7 +60,9 @@ class DriverManager:
                     extension = get_proxy_extension(PROXY_HOST=host, PROXY_PORT=port, PROXY_USER=user, PROXY_PASS=pwd)
                     self.options.add_extension(extension)
                 else:
-                    self.options.add_argument(f'--proxy-server=http://{proxy}')
+                    self.options.add_argument(f'--proxy-server=http://{self.proxy}')
+            if self.user_agent:
+                self.options.add_argument(f'--user-agent={self.user_agent}')
             self.driver = webdriver.Chrome(ChromeDriverManager().install(), options=self.options,
                                            desired_capabilities=caps)
 
