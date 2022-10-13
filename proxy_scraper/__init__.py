@@ -17,6 +17,7 @@ async def save(proxies, filename):
 
 async def main():
     proxies = asyncio.Queue()
+
     broker = Broker(proxies)
     await asyncio.gather(broker.grab(countries=['US', 'GB'], limit=10),
                            save(proxies, filename='proxies.txt'))
