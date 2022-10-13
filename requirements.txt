@@ -101,5 +101,3 @@ xkcdpass==1.19.3
 yamlreader==3.0.4
 yarl==1.8.1
 zipp==3.8.1
-
-proxybroker~=2.0.0a4
