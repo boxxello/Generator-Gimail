@@ -74,9 +74,12 @@ class Proxy(object):
                 return []
 
         re_port_result = []
+
         for each_result in re_port_encode_result:
             each_result = each_result.strip()
             re_port_result.append(int(''.join(list(map(lambda x: self.port_dict.get(x, ''), each_result)))))
+            # logger.debug(f"Printing each result {each_result}")
+            # logger.debug(f"printing re_port_result {int(''.join(list(map(lambda x: self.port_dict.get(x, ''), each_result))))}")
 
         result_dict = dict(zip(re_ip_result, re_port_result))
         return [{"host": host, "port": int(port), "from": "cnproxy"} for host, port in result_dict.items()]

@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 class Proxy(object):
     def __init__(self):
-        self.re_ip_port_pattern_ = re.compile(r"(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}):([\d]{1,5})")
+
         self.re_ip_port_pattern=IPPortPatternLine
         self.cur_proxy = None
         self.proxies = []
