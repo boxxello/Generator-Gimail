@@ -1,12 +1,8 @@
-#! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
 from __future__ import unicode_literals, absolute_import, division, print_function
 
 import re
 import time
 import base64
-import logging
 import retrying
 import requests
 from fake_useragent import UserAgent

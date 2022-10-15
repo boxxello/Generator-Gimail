@@ -1,6 +1,3 @@
-#! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
 from __future__ import unicode_literals, absolute_import, division, print_function
 
 import re
@@ -9,7 +6,7 @@ import retrying
 import requests
 from fake_useragent import UserAgent
 
-from proxy_scraper.Utils import IPPattern, IPPortPatternGlobal, IPPortPatternLine
+from proxy_scraper.Utils import  IPPortPatternLine
 
 logger = logging.getLogger(__name__)
 
