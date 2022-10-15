@@ -10,7 +10,7 @@ import retrying
 import requests
 from fake_useragent import UserAgent
 
-from utils.logging import get_logger, load_logging_config
+from utils.logging import get_logger
 
 """
 http://www.cnproxy.com/proxy1.html

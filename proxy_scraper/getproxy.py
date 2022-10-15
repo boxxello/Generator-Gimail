@@ -5,7 +5,7 @@ from __future__ import unicode_literals, absolute_import, division, print_functi
 
 import gevent.monkey
 
-from proxy_scraper.utils import signal_name, load_object
+from proxy_scraper.Utils import signal_name, load_object
 
 gevent.monkey.patch_all()
 
