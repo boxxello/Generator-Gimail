@@ -7,21 +7,23 @@ import re
 import logging
 import retrying
 import requests
+from fake_useragent import UserAgent
 
+from proxy_scraper.utils import IPPattern, IPPortPatternGlobal, IPPortPatternLine
 
 logger = logging.getLogger(__name__)
 
 
 class Proxy(object):
     def __init__(self):
-        self.re_ip_port_pattern = re.compile(r"(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}):([\d]{1,5})")
-
+        self.re_ip_port_pattern_ = re.compile(r"(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}):([\d]{1,5})")
+        self.re_ip_port_pattern=IPPortPatternLine
         self.cur_proxy = None
         self.proxies = []
         self.result = []
 
-        self.txt_list = [
 
+        self.txt_list=[
             'http://static.fatezero.org/tmp/proxy.txt',
             'http://pubproxy.com/api/proxy?limit=20&format=txt&type=http',
 
@@ -29,21 +31,29 @@ class Proxy(object):
             'http://www.proxylists.net/http.txt',
             'http://ab57.ru/downloads/proxylist.txt',
 
+            'https://api.proxyscrape.com/?request=getproxies&proxytype=http',
+            'http://ipaddress.com/proxy-list/',
+            'https://www.sslproxies.org/',
+            'https://free-proxy-list.net/',
+            'https://us-proxy.org/',
+            'http://www.httptunnel.ge/ProxyListForFree.aspx',
         ]
 
     @retrying.retry(stop_max_attempt_number=3)
-    def extract_proxy(self, url):
+    def extract_proxy(self, url, user_agent):
         try:
-            headers = {
-                'User-Agent': "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.1 (KHTML, like Gecko) "
-                              "Chrome/21.0.1180.89 Safari/537.1'"
-            }
+            # we don't need br as accept-encoding. it will cause error when downloading file and decoding it.
+            headers = {'User-Agent': user_agent,
+                       'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                       'accept-encoding': 'gzip, deflate',
+
+                       'accept-language': 'en-US,en;q=0.8',
+                       "referer": f"https://google.com/"}
             rp = requests.get(url, proxies=self.cur_proxy, headers=headers, timeout=10)
-
-            re_ip_port_result = self.re_ip_port_pattern.findall(rp.text)
-
-            if not re_ip_port_result:
-                raise Exception("empty")
+            if rp.status_code == 200:
+                re_ip_port_result = self.re_ip_port_pattern.findall(rp.text)
+                if not re_ip_port_result:
+                    raise Exception("empty")
 
         except Exception as e:
             logger.error("[-] Request url {url} error: {error}".format(url=url, error=str(e)))
@@ -57,9 +67,11 @@ class Proxy(object):
         return [{'host': host, 'port': int(port), 'from': 'txt'} for host, port in re_ip_port_result]
 
     def start(self):
+        ua = UserAgent()
+
         for url in self.txt_list:
             try:
-                page_result = self.extract_proxy(url)
+                page_result = self.extract_proxy(url, ua.random)
             except:
                 continue
 

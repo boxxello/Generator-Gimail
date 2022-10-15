@@ -9,9 +9,11 @@ import base64
 import logging
 import retrying
 import requests
+from fake_useragent import UserAgent
 
+from utils.logging import get_logger
 
-logger = logging.getLogger(__name__)
+logger= get_logger(__name__)
 
 
 class Proxy(object):
@@ -50,6 +52,7 @@ class Proxy(object):
         return re_ip_port_result
 
     def start(self):
+        ua = UserAgent()
         for page in range(1, 10):
             page_result = self.extract_proxy(page)
             time.sleep(3)
