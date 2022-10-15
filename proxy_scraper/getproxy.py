@@ -57,13 +57,13 @@ class GetProxy(object):
 
         self.proxies_hash[proxy_hash] = True
         request_proxies = {
-            scheme: "%s:%s" % (host, port)
+            scheme: f"{host}:{port}"
         }
 
         request_begin = time.time()
         try:
             response_json = requests.get(
-                f"{scheme}://httpbin.org/get?show_env=1&cur{request_begin}",
+                f"{scheme}://httpbin.org/get?show_env=1&cur={request_begin}",
                 proxies=request_proxies,
                 timeout=5
             ).json()
@@ -133,7 +133,7 @@ class GetProxy(object):
         raise SystemExit()
 
     def _request_stop(self, signum, _):
-        logger.debug("Got signal %s" % signal_name(signum))
+        logger.debug(f"Got signal {signal_name(signum)}")
 
         signal.signal(signal.SIGINT, self._request_force_stop)
         signal.signal(signal.SIGTERM, self._request_force_stop)
@@ -147,7 +147,7 @@ class GetProxy(object):
 
         rp = requests.get('http://httpbin.org/get')
         self.origin_ip = rp.json().get('origin', '')
-        logger.info(f"[*] Current Ip Address: {self.origin_ip}")
+        logger.info("[*] Current Ip Address: %s" % self.origin_ip)
 
         self.geoip_reader = geoip2.database.Reader(os.path.join(self.base_dir, 'data/GeoLite2-Country.mmdb'))
 
@@ -176,7 +176,7 @@ class GetProxy(object):
             try:
                 cls = load_object(f"proxy_scraper.plugin.{os.path.splitext(plugin_name)[0]}.Proxy")
             except Exception as e:
-                logger.info(f"[-] Load Plugin %s error: {plugin_name, str(e)}" )
+                logger.info(f"[-] Load Plugin {plugin_name} error: {str(e)}" )
                 continue
 
             inst = cls()
