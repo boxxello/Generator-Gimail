@@ -51,7 +51,7 @@ class GetProxy(object):
         host = proxy.get('host')
         port = proxy.get('port')
 
-        proxy_hash = '%s://%s:%s' % (scheme, host, port)
+        proxy_hash = f'{scheme}://{host}:{port}'
         if proxy_hash in self.proxies_hash:
             return
 
@@ -63,7 +63,7 @@ class GetProxy(object):
         request_begin = time.time()
         try:
             response_json = requests.get(
-                "%s://httpbin.org/get?show_env=1&cur=%s" % (scheme, request_begin),
+                f"{scheme}://httpbin.org/get?show_env=1&cur{request_begin}",
                 proxies=request_proxies,
                 timeout=5
             ).json()
@@ -147,7 +147,7 @@ class GetProxy(object):
 
         rp = requests.get('http://httpbin.org/get')
         self.origin_ip = rp.json().get('origin', '')
-        logger.info("[*] Current Ip Address: %s" % self.origin_ip)
+        logger.info(f"[*] Current Ip Address: {self.origin_ip}")
 
         self.geoip_reader = geoip2.database.Reader(os.path.join(self.base_dir, 'data/GeoLite2-Country.mmdb'))
 
@@ -165,8 +165,7 @@ class GetProxy(object):
     def validate_input_proxies(self):
         logger.info("[*] Validate input proxies")
         self.valid_proxies = self._validate_proxy_list(self.input_proxies)
-        logger.info("[*] Check %s input proxies, Got %s valid input proxies" %
-                    (len(self.proxies_hash), len(self.valid_proxies)))
+        logger.info(f"[*] Check { len(self.proxies_hash)} input proxies, Got {len(self.valid_proxies)} valid input proxies")
 
     def load_plugins(self):
         logger.info("[*] Load plugins")
@@ -175,9 +174,9 @@ class GetProxy(object):
                 continue
 
             try:
-                cls = load_object("proxy_scraper.plugin.%s.Proxy" % os.path.splitext(plugin_name)[0])
+                cls = load_object(f"proxy_scraper.plugin.{os.path.splitext(plugin_name)[0]}.Proxy")
             except Exception as e:
-                logger.info("[-] Load Plugin %s error: %s" % (plugin_name, str(e)))
+                logger.info(f"[-] Load Plugin %s error: {plugin_name, str(e)}" )
                 continue
 
             inst = cls()
@@ -204,10 +203,8 @@ class GetProxy(object):
 
         output_proxies_len = len(self.proxies_hash) - input_proxies_len
 
-        logger.info("[*] Check %s output proxies, Got %s valid output proxies" %
-                    (output_proxies_len, len(valid_proxies)))
-        logger.info("[*] Check %s proxies, Got %s valid proxies" %
-                    (len(self.proxies_hash), len(self.valid_proxies)))
+        logger.info(f"[*] Check {output_proxies_len} output proxies, Got {len(valid_proxies)} valid output proxies")
+        logger.info(f"[*] Check {len(self.proxies_hash)} proxies, Got {len(self.valid_proxies)} valid proxies")
 
     def save_proxies(self):
         if self.output_proxies_file:
