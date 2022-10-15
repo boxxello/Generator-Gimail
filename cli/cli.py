@@ -63,7 +63,7 @@ def run(browser: str, min_length: int, max_length: int,
             scraper = ScraperGmail(driver=dm_obj.driver, nationality='it', settings=settings)
             break
         except FakeUserAgentError:
-            sleep(1)
+
             ua=None
 
 
