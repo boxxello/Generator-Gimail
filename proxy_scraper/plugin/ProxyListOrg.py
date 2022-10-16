@@ -64,6 +64,7 @@ class Proxy(object):
     def extract_proxy(self, url):
         try:
             rp = requests.get(url, proxies=self.cur_proxy, timeout=10, headers=self.headers)
+
             re_ip_result = self.re_ip_pattern.findall(rp.text)
             re_port_encode_result=self.decode_proxy(re_ip_result)
             if not len(re_port_encode_result) or not len(re_ip_result):

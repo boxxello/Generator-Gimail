@@ -96,7 +96,7 @@ class Proxy(object):
             re_ip_result = self.re_ip_port_pattern.findall(page)
 
             print(re_ip_result)
-
+            re_ip_result=list(set(re_ip_result))
             if  not len(re_ip_result):
                 raise ValueError("empty")
         except Exception as e:
@@ -108,14 +108,17 @@ class Proxy(object):
             else:
                 return []
         re_ip_port_result = []
+
         for each_result in re_ip_result:
             host, port = each_result
-            re_ip_port_result.append({"host": host, "port": int(port), "from": "proxylist"})
+            re_ip_port_result.append({"host": host, "port": int(port), "from": "SpysOne"})
+
         return re_ip_port_result
 
     def start(self):
         tuple_unpack= self.extract_pages()
         urls, page= tuple_unpack[0], tuple_unpack[1]
+
         if urls:
             for url in urls:
                 self.result.extend(self.extract_proxy(url))
