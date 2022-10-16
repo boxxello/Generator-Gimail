@@ -56,7 +56,8 @@ class Proxy(object):
                 raise e
             else:
                 return []
-        logger.info(f"[+] Got pages \n {urls}" )
+            
+        logger.debug(f"[+] Got pages \n {urls}" )
         return urls
 
     @retrying.retry(stop_max_attempt_number=3)
