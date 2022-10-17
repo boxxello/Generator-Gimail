@@ -23,10 +23,6 @@ class UniqueName:
         :param data_path:
         :return:
         """
-        names = []
-        colors = []
-        animals = []
-        adj = []
 
         names, colors, animals, adj = self.read_names_from_data(data_path)
 
