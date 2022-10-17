@@ -14,7 +14,7 @@ logger= get_logger(__name__)
 
 class Proxy(object):
     def __init__(self):
-        self.url = 'http://proxy-list.org/english/index.php?p={page}'  # 从1-10
+        self.url = 'http://proxy-list.org/english/index.php?p={page}'
         self.re_ip_port_encode_pattern = re.compile(r"Proxy\(\'([\w\d=+]+)\'\)", re.I)
 
         self.cur_proxy = None
