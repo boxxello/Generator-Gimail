@@ -196,15 +196,10 @@ class GetProxy(object):
 
     def validate_web_proxies(self):
         logger.info("[*] Validate web proxies")
-        input_proxies_len = len(self.proxies_hash)
 
         valid_proxies = self._validate_proxy_list(self.web_proxies)
         self.valid_proxies.extend(valid_proxies)
-
-        output_proxies_len = len(self.proxies_hash) - input_proxies_len
-
-        logger.info(f"[*] Check {output_proxies_len} output proxies, Got {len(valid_proxies)} valid output proxies")
-        logger.info(f"[*] Check {len(self.proxies_hash)} proxies, Got {len(self.valid_proxies)} valid proxies")
+        logger.info(f"[*] Check {len(self.web_proxies)}, of which {len(self.proxies_hash)} proxies, Got {len(self.valid_proxies)} valid proxies")
 
     def save_proxies(self):
         if self.output_proxies_file:
