@@ -43,7 +43,7 @@ class Proxy(object):
             re_ip_result = self.re_ip_port_pattern.findall(page)
 
             logger.info(f"[+] Got {len(re_ip_result)} proxies from {url}")
-
+            re_ip_result=list(set(re_ip_result))
             if  not len(re_ip_result):
                 raise ValueError("empty")
         except Exception as e:
@@ -58,7 +58,7 @@ class Proxy(object):
 
         for each_result in re_ip_result:
             host, port = each_result
-            re_ip_port_result.append({"host": host, "port": int(port), "from": "ProxyListPlus"})
+            re_ip_port_result.append({"host": host, "port": int(port), "from": "FoxToolsAPI"})
         return re_ip_port_result
 
     def start(self):
