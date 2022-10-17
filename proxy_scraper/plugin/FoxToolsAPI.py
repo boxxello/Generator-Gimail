@@ -7,7 +7,7 @@ import retrying
 import requests
 from fake_useragent import UserAgent
 
-from proxy_scraper.Utils import IPPortPatternLine, IPPortPatternGlobal
+from proxy_scraper.Utils import IPPortPatternGlobal
 from utils.logging import get_logger
 
 
