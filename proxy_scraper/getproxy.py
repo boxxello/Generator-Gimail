@@ -3,6 +3,7 @@ from __future__ import unicode_literals, absolute_import, division, print_functi
 import gevent.monkey
 
 from proxy_scraper.Utils import signal_name, load_object
+from utils.logging import get_logger
 
 gevent.monkey.patch_all()
 
@@ -20,8 +21,7 @@ import geoip2.database
 
 
 
-logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
+logger = get_logger(__name__)
 
 
 class GetProxy(object):
@@ -65,7 +65,7 @@ class GetProxy(object):
             response_json = requests.get(
                 f"{scheme}://httpbin.org/get?show_env=1&cur={request_begin}",
                 proxies=request_proxies,
-                timeout=5
+                timeout=20,
             ).json()
         except:
             return
