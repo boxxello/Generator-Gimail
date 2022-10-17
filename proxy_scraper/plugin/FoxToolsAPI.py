@@ -1,8 +1,5 @@
 from __future__ import unicode_literals, absolute_import, division, print_function
-
-import re
 from itertools import chain
-
 import retrying
 import requests
 from fake_useragent import UserAgent
