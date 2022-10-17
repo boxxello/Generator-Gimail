@@ -1,5 +1,7 @@
 from __future__ import unicode_literals, absolute_import, division, print_function
 
+from datetime import datetime
+
 import gevent.monkey
 
 from proxy_scraper.Utils import signal_name, load_object, DATA_DIR_PATH
@@ -65,7 +67,7 @@ class GetProxy(object):
             response_json = requests.get(
                 f"{scheme}://httpbin.org/get?show_env=1&cur={request_begin}",
                 proxies=request_proxies,
-                timeout=20,
+                timeout=8,
             ).json()
         except:
             return
@@ -94,7 +96,7 @@ class GetProxy(object):
             "from": proxy.get('from')
         }
 
-    def _validate_proxy_list(self, proxies, timeout=300):
+    def _validate_proxy_list(self, proxies, timeout=500):
         valid_proxies = []
 
         def save_result(p):
@@ -106,6 +108,7 @@ class GetProxy(object):
             self.pool.apply_async(self._validate_proxy, args=(proxy, 'https'), callback=save_result)
 
         self.pool.join(timeout=timeout)
+        time.sleep(3)
         self.pool.kill()
 
         return valid_proxies
@@ -189,7 +192,7 @@ class GetProxy(object):
         for plugin in self.plugins:
             self.pool.spawn(plugin.start)
 
-        self.pool.join(timeout=8 * 60)
+        self.pool.join(timeout=10 * 60)
         self.pool.kill()
 
         self._collect_result()
@@ -205,13 +208,18 @@ class GetProxy(object):
         if self.output_proxies_file:
             outfile = self.output_proxies_file
         else:
-            outfile = DATA_DIR_PATH
-            for proxy in self.valid_proxies:
-                print(proxy)
+
+            outfile=os.path.join(DATA_DIR_PATH,f'proxies_{datetime.now().strftime("%H_%M_%S")}')
+            # for proxy in self.valid_proxies:
+            #     print(proxy)
             sys.stdout.flush()
-        with open(outfile, 'w') as fd:
-            for proxy in self.valid_proxies:
-                fd.write(json.dumps(proxy) + '\n')
+        try:
+            with open(outfile, 'w') as fd:
+                for proxy in self.valid_proxies:
+                    fd.write(json.dumps(proxy) + '\n')
+        except Exception as e:
+            logger.error(f"[-] Save proxies error: {str(e)}")
+        logger.info("DONE")
 
 
 
