@@ -11,9 +11,7 @@ from fake_useragent import UserAgent
 from proxy_scraper.Utils import IPPortPatternLine, IPPortPatternGlobal
 from utils.logging import get_logger
 
-"""
-http://proxy-list.org/english/index.php?p=1
-"""
+
 
 logger = get_logger(__name__)
 

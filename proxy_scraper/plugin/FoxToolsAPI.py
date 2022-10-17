@@ -1,5 +1,6 @@
 from __future__ import unicode_literals, absolute_import, division, print_function
 
+import re
 from itertools import chain
 
 import retrying
@@ -14,10 +15,9 @@ logger = get_logger(__name__)
 
 
 class Proxy(object):
-    domain = 'list.proxylistplus.com'
-    charEqNum = {}
+    domain = 'proxylist.me'
     def __init__(self):
-        self.url='http://list.proxylistplus.com/%s-List-%d'
+
         self.re_ip_port_pattern = IPPortPatternGlobal
         self.cur_proxy = None
         self.proxies = []
@@ -29,14 +29,10 @@ class Proxy(object):
                         'accept-encoding': 'gzip, deflate',
                         'accept-language': 'en-US,en;q=0.8',
                         "referer": f"https://google.com/"}
+
+
     def extract_pages(self):
-        names = ['Fresh-HTTP-Proxy']
-        #you can also extract ssl/socks5 proxy
-        urls = [
-            'http://list.proxylistplus.com/%s-List-%d' % (i, n)
-            for i in names
-            for n in range(1, 7)
-        ]
+        urls = ['http://api.foxtools.ru/v2/Proxy.txt?page=%d' % n for n in range(1, 6)]
         return urls
 
     @retrying.retry(stop_max_attempt_number=3)
@@ -45,7 +41,7 @@ class Proxy(object):
             rp = requests.get(url, proxies=self.cur_proxy, timeout=10, headers=self.headers)
             page = rp.text
             re_ip_result = self.re_ip_port_pattern.findall(page)
-            re_ip_result=list(set(pair for pair in re_ip_result if pair[1] != ''))
+
             logger.info(f"[+] Got {len(re_ip_result)} proxies from {url}")
 
             if  not len(re_ip_result):
