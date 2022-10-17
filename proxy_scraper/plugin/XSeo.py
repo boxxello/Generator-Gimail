@@ -1,9 +1,6 @@
 from __future__ import unicode_literals, absolute_import, division, print_function
 
 import re
-import time
-from base64 import b64decode
-
 import retrying
 import requests
 from fake_useragent import UserAgent
