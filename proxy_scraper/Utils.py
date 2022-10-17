@@ -1,9 +1,14 @@
+import os
 import re
 import sys
 import signal
 from importlib import import_module
+from pathlib import Path
 
+import proxy_scraper
 
+BASE_PATH = Path(os.path.abspath(proxy_scraper.__file__)).parent
+DATA_DIR_PATH = os.path.join(BASE_PATH, "data")
 _signames = dict((getattr(signal, signame), signame)
                  for signame in dir(signal)
                  if signame.startswith('SIG') and '_' not in signame)

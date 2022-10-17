@@ -2,7 +2,7 @@ from __future__ import unicode_literals, absolute_import, division, print_functi
 
 import gevent.monkey
 
-from proxy_scraper.Utils import signal_name, load_object
+from proxy_scraper.Utils import signal_name, load_object, DATA_DIR_PATH
 from utils.logging import get_logger
 
 gevent.monkey.patch_all()
@@ -203,17 +203,17 @@ class GetProxy(object):
 
     def save_proxies(self):
         if self.output_proxies_file:
-            outfile = open(self.output_proxies_file, 'w')
+            outfile = self.output_proxies_file
         else:
-            outfile = sys.stdout
+            outfile = DATA_DIR_PATH
+            for proxy in self.valid_proxies:
+                print(proxy)
+            sys.stdout.flush()
+        with open(outfile, 'w') as fd:
+            for proxy in self.valid_proxies:
+                fd.write(json.dumps(proxy) + '\n')
 
-        for item in self.valid_proxies:
-            outfile.write("%s\n" % json.dumps(item))
 
-        outfile.flush()
-
-        if outfile != sys.stdout:
-            outfile.close()
 
     def start(self):
         self.init()
