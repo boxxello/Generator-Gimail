@@ -1,22 +1,13 @@
 from __future__ import unicode_literals, absolute_import, division, print_function
-
 import re
 from base64 import b64decode
-
 import retrying
 import requests
 from fake_useragent import UserAgent
-
-from proxy_scraper.Utils import IPPortPatternLine
+from proxy_scraper.proxy_scraper.Utils import IPPortPatternLine
 from utils.logging import get_logger
 
-"""
-http://proxy-list.org/english/index.php?p=1
-"""
-
-
 logger = get_logger(__name__)
-
 
 class Proxy(object):
     def __init__(self):

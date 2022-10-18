@@ -3,8 +3,7 @@ from itertools import chain
 import retrying
 import requests
 from fake_useragent import UserAgent
-
-from proxy_scraper.Utils import IPPortPatternGlobal
+from proxy_scraper.proxy_scraper.Utils import IPPortPatternGlobal
 from utils.logging import get_logger
 
 
@@ -12,9 +11,8 @@ logger = get_logger(__name__)
 
 
 class Proxy(object):
-    domain = 'proxylist.me'
     def __init__(self):
-
+        self.url='http://list.proxylistplus.com/%s-List-%d'
         self.re_ip_port_pattern = IPPortPatternGlobal
         self.cur_proxy = None
         self.proxies = []
@@ -26,10 +24,14 @@ class Proxy(object):
                         'accept-encoding': 'gzip, deflate',
                         'accept-language': 'en-US,en;q=0.8',
                         "referer": f"https://google.com/"}
-
-
     def extract_pages(self):
-        urls = ['http://api.foxtools.ru/v2/Proxy.txt?page=%d' % n for n in range(1, 6)]
+        names = ['Fresh-HTTP-Proxy']
+        #you can also extract ssl/socks5 proxy
+        urls = [
+            'http://list.proxylistplus.com/%s-List-%d' % (i, n)
+            for i in names
+            for n in range(1, 7)
+        ]
         return urls
 
     @retrying.retry(stop_max_attempt_number=3)
@@ -38,9 +40,9 @@ class Proxy(object):
             rp = requests.get(url, proxies=self.cur_proxy, timeout=10, headers=self.headers)
             page = rp.text
             re_ip_result = self.re_ip_port_pattern.findall(page)
-
+            re_ip_result=list(set(pair for pair in re_ip_result if pair[1] != ''))
             logger.info(f"[+] Got {len(re_ip_result)} proxies from {url}")
-            re_ip_result=list(set(re_ip_result))
+
             if  not len(re_ip_result):
                 raise ValueError("empty")
         except Exception as e:
@@ -55,7 +57,7 @@ class Proxy(object):
 
         for each_result in re_ip_result:
             host, port = each_result
-            re_ip_port_result.append({"host": host, "port": int(port), "from": "FoxToolsAPI"})
+            re_ip_port_result.append({"host": host, "port": int(port), "from": "ProxyListPlus"})
         return re_ip_port_result
 
     def start(self):

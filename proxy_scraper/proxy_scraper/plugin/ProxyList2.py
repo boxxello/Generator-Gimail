@@ -1,12 +1,9 @@
 from __future__ import unicode_literals, absolute_import, division, print_function
-
-import re
 from itertools import chain
 import retrying
 import requests
 from fake_useragent import UserAgent
-
-from proxy_scraper.Utils import IPPortPatternGlobal
+from proxy_scraper.proxy_scraper.Utils import IPPortPatternGlobal
 from utils.logging import get_logger
 
 
@@ -14,7 +11,6 @@ logger = get_logger(__name__)
 
 
 class Proxy(object):
-    domain = 'webanetlabs.net'
     def __init__(self):
         self.url='https://webanetlabs.net/publ/24'
         self.re_ip_port_pattern = IPPortPatternGlobal

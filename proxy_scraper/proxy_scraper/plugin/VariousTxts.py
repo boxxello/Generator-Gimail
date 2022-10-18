@@ -1,19 +1,16 @@
 from __future__ import unicode_literals, absolute_import, division, print_function
-
-import re
 import logging
 import retrying
 import requests
 from fake_useragent import UserAgent
 
-from proxy_scraper.Utils import  IPPortPatternLine
+from proxy_scraper.proxy_scraper.Utils import  IPPortPatternLine
 
 logger = logging.getLogger(__name__)
 
 
 class Proxy(object):
     def __init__(self):
-
         self.re_ip_port_pattern=IPPortPatternLine
         self.cur_proxy = None
         self.proxies = []

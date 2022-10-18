@@ -1,13 +1,10 @@
 from __future__ import unicode_literals, absolute_import, division, print_function
-
 import re
 from itertools import chain
-
 import retrying
 import requests
 from fake_useragent import UserAgent
-
-from proxy_scraper.Utils import IPPortPatternGlobal
+from proxy_scraper.proxy_scraper.Utils import  IPPortPatternGlobal
 from utils.logging import get_logger
 
 
@@ -15,10 +12,9 @@ logger = get_logger(__name__)
 
 
 class Proxy(object):
-    domain = 'checkerproxy.net'
 
     def __init__(self):
-        self.url='https://checkerproxy.net/'
+
         self.re_ip_port_pattern = IPPortPatternGlobal
         self.cur_proxy = None
         self.proxies = []
@@ -33,14 +29,12 @@ class Proxy(object):
 
 
     def extract_pages(self):
-        exp = r'''href\s*=\s*['"](/archive/\d{4}-\d{2}-\d{2})['"]'''
-        rp = requests.get(self.url, proxies=self.cur_proxy, timeout=10, headers=self.headers)
+        exp = r'''href\s*=\s*['"]([^'"]?free-[^'"]*)['"]'''
+        url = 'https://www.my-proxy.com/free-proxy-list.html'
+        rp = requests.get(url, proxies=self.cur_proxy, timeout=10, headers=self.headers)
         page=rp.text
-        urls = [
-            'https://checkerproxy.net/api%s' % path for path in re.findall(exp, page)
-        ]
-        print(urls)
-
+        urls = ['https://www.my-proxy.com/%s' % path for path in re.findall(exp, page)]
+        urls.append(url)
         return urls
 
     @retrying.retry(stop_max_attempt_number=3)
@@ -66,7 +60,7 @@ class Proxy(object):
 
         for each_result in re_ip_result:
             host, port = each_result
-            re_ip_port_result.append({"host": host, "port": int(port), "from": "CheckerProxy"})
+            re_ip_port_result.append({"host": host, "port": int(port), "from": "FoxToolsAPI"})
         return re_ip_port_result
 
     def start(self):

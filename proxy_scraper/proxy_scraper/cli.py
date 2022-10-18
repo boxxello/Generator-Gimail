@@ -1,4 +1,4 @@
-from proxy_scraper.getproxy import GetProxy
+from proxy_scraper.proxy_scraper.getproxy import GetProxy
 
 if __name__== '__main__':
     g = GetProxy()

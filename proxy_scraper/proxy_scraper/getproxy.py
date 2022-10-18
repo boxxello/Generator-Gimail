@@ -4,7 +4,7 @@ from datetime import datetime
 
 import gevent.monkey
 
-from proxy_scraper.Utils import signal_name, load_object, DATA_DIR_PATH
+from proxy_scraper import signal_name, load_object, DATA_DIR_PATH
 from utils.logging import get_logger
 
 gevent.monkey.patch_all()
@@ -150,7 +150,8 @@ class GetProxy(object):
         self.origin_ip = rp.json().get('origin', '')
         logger.info("[*] Current Ip Address: %s" % self.origin_ip)
 
-        self.geoip_reader = geoip2.database.Reader(os.path.join(self.base_dir, 'data/GeoLite2-Country.mmdb'))
+        self.geoip_reader = geoip2.database.Reader(os.path.join(self.base_dir,
+                                                                'data/GeoLite2-Country.mmdb'))
 
     def load_input_proxies(self):
         logger.info("[*] Load input proxies")

@@ -1,14 +1,9 @@
 from __future__ import unicode_literals, absolute_import, division, print_function
-
 import re
-import time
-from base64 import b64decode
-
 import retrying
 import requests
 from fake_useragent import UserAgent
-
-from proxy_scraper.Utils import  IPPortPatternGlobal
+from proxy_scraper.proxy_scraper.Utils import  IPPortPatternGlobal
 from utils.logging import get_logger
 
 
@@ -17,7 +12,6 @@ logger = get_logger(__name__)
 
 
 class Proxy(object):
-    domain = 'spys.ru'
     charEqNum = {}
     def __init__(self):
         self.re_ip_port_pattern = IPPortPatternGlobal
@@ -92,8 +86,6 @@ class Proxy(object):
                 self.charEqNum[char] = int(num)
             page = re.sub(expPortOnJS, self.char_js_port_to_num, page)
             re_ip_result = self.re_ip_port_pattern.findall(page)
-
-            print(re_ip_result)
             re_ip_result=list(set(re_ip_result))
             if  not len(re_ip_result):
                 raise ValueError("empty")

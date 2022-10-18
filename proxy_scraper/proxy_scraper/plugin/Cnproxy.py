@@ -1,5 +1,4 @@
 from __future__ import unicode_literals, absolute_import, division, print_function
-
 import re
 import time
 import retrying
@@ -7,10 +6,6 @@ import requests
 from fake_useragent import UserAgent
 
 from utils.logging import get_logger
-
-"""
-http://www.cnproxy.com/proxy1.html
-"""
 
 
 logger = get_logger(__name__)
