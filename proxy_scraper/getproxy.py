@@ -134,7 +134,7 @@ class GetProxy(object):
         raise SystemExit()
 
     def _request_stop(self, signum, _):
-        logger.debug(f"Got signal {signal_name(signum)}")
+        logger.info(f"Got signal {signal_name(signum)}")
 
         signal.signal(signal.SIGINT, self._request_force_stop)
         signal.signal(signal.SIGTERM, self._request_force_stop)

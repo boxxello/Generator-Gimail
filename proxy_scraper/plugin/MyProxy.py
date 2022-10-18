@@ -38,8 +38,6 @@ class Proxy(object):
         page=rp.text
         urls = ['https://www.my-proxy.com/%s' % path for path in re.findall(exp, page)]
         urls.append(url)
-        print(urls)
-
         return urls
 
     @retrying.retry(stop_max_attempt_number=3)

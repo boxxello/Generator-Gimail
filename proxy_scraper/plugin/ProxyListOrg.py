@@ -69,7 +69,7 @@ class Proxy(object):
             if not len(re_port_encode_result) or not len(re_ip_result):
                 raise ValueError("empty")
         except Exception as e:
-            logger.error("[-] Request page {page} error: {error}")
+            logger.error(f"[-] Request page error: {e}")
             while self.proxies:
                 new_proxy = self.proxies.pop(0)
                 self.cur_proxy = {new_proxy['type']: "%s:%s" % (new_proxy['host'], new_proxy['port'])}
