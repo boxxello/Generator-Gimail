@@ -15,8 +15,6 @@ import json
 import time
 import copy
 import signal
-import logging
-
 import requests
 import gevent.pool
 import geoip2.database
