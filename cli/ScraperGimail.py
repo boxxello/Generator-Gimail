@@ -10,7 +10,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from cli.settings import Settings
 from mac_generator.Generator import GeneratorMac
-from utils.logging import get_logger
+from utils.logger import get_logger
 
 logger = get_logger()
 

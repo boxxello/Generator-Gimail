@@ -5,7 +5,7 @@ from ruamel.yaml import dump, YAML
 
 from cli.DriverManager import ALL_VALID_BROWSER_STRINGS
 from utils.utils import Utilities
-from utils.logging import get_logger
+from utils.logger import get_logger
 
 logger = get_logger()
 

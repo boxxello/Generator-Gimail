@@ -2,7 +2,7 @@ import unittest
 
 from generator_mail.PasswordGenerator import PasswordGenerator
 from cli.cli import enable_debug_logging
-from utils.logging import get_logger
+from utils.logger import get_logger
 
 logger = get_logger()
 

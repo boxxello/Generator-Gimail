@@ -1,3 +1,0 @@
-include proxy_scraper/data/GeoLite2-Country.mmdb
-include LICENSE
-include README.MD

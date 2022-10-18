@@ -7,7 +7,7 @@ from webdriver_manager.firefox import GeckoDriverManager
 from webdriver_manager.microsoft import EdgeChromiumDriverManager, IEDriverManager
 
 from cli.add_proxy import get_proxy_extension
-from utils.logging import get_logger
+from utils.logger import get_logger
 
 logger = get_logger()
 VALID_FIREFOX_STRINGS = {"ff", "firefox"}

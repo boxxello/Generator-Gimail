@@ -5,7 +5,7 @@ from enum import Enum
 from typing import List
 
 from mac_generator.Exceptions import FormatErrorUnknown
-from utils.logging import get_logger
+from utils.logger import get_logger
 
 logger = get_logger()
 

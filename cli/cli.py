@@ -13,7 +13,7 @@ from generator_mail.CommonFN import CommonFN
 from generator_mail.EmailGen import EmailGen
 from generator_mail.PasswordGenerator import PasswordGenerator
 from utils import Utilities
-from utils.logging import get_logger
+from utils.logger import get_logger
 from cli.settings import Settings
 
 logger = get_logger()
