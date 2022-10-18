@@ -8,7 +8,7 @@ from time import sleep
 from fake_useragent import UserAgent, FakeUserAgentError
 
 from cli.DriverManager import ALL_VALID_BROWSER_STRINGS, DriverManager
-from cli.ScraperGmail import ScraperGmail
+from cli.ScraperGimail import ScraperGmail
 from generator_mail.CommonFN import CommonFN
 from generator_mail.EmailGen import EmailGen
 from generator_mail.PasswordGenerator import PasswordGenerator
